@@ -12,12 +12,12 @@ public class MuseumMain {
 
     private static final String CREATE_PEOPLE_TABLE_SQL="CREATE TABLE People ("
             + "ID int NOT NULL,"
-            + "Name int NOT NULL,"
+            + "Name string NOT NULL,"
             + "Age int NOT NULL)"
 ;
     private static final String CREATE_TIME_TABLE_SQL ="CREATE TABLE Time ("
             + "ID int NOT NULL,"
-            + "Time Slot int NOT NULL)"
+            + "Time Slot string NOT NULL)"
             ;
 
     public static void main(String[] args) {
