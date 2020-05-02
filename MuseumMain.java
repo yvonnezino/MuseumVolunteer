@@ -10,23 +10,33 @@ import java.sql.SQLException;
  */
 public class MuseumMain {
 
-    private static final String CREATE_TABLE_SQL="CREATE TABLE People ("
+    private static final String CREATE_PEOPLE_TABLE_SQL="CREATE TABLE People ("
+            + "ID int NOT NULL,"
             + "Name int NOT NULL,"
-            + "Age int NOT NULL,"
+            + "Age int NOT NULL)"
 ;
+    private static final String CREATE_TIME_TABLE_SQL ="CREATE TABLE Time ("
+            + "ID int NOT NULL,"
+            + "Time Slot int NOT NULL)"
+            ;
 
     public static void main(String[] args) {
         String url = "jdbc:sqlite:/Users/parkerkerth/Documents/School/Software/Mueseum/People.db";
 
 
         Connection conn = null;
-        PreparedStatement stmt = null;
+        PreparedStatement stmt_people = null;
+        PreparedStatement stmt_time = null;
 
         try {
 
             conn = DriverManager.getConnection(url);
-            stmt = conn.prepareStatement(CREATE_TABLE_SQL);
-            stmt.executeUpdate();
+            stmt_people = conn.prepareStatement(CREATE_PEOPLE_TABLE_SQL);
+            stmt_time = conn.prepareStatement(CREATE_TIME_TABLE_SQL);
+
+            stmt_people.executeUpdate();
+            stmt_time.executeUpdate();
+
 
             System.out.println("Table created");
 
@@ -34,8 +44,11 @@ public class MuseumMain {
             e.printStackTrace();
         } finally {
             try {
-                if (stmt != null) {
-                    stmt.close();
+                if (stmt_people != null) {
+                    stmt_people.close();
+                }
+                if (stmt_time!= null) {
+                    stmt_time.close();
                 }
                 if (conn != null) {
                     conn.close();
