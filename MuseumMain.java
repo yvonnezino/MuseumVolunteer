@@ -21,13 +21,14 @@ public class MuseumMain {
 
     private static final String CREATE_JOIN_TABLE_SQL ="CREATE TABLE Joins ("
             + "ID INT NOT NULL,"
-            + "Name STRING NOT NULL,"
-            + "Age INT NOT NULL)";
+            + "Age INT NOT NULL,"
+            + "Name STRING NOT NULL)";
 
 
 
     public static void main(String[] args) {
-        String url = "jdbc:sqlite:/Users/parkerkerth/Documents/School/Software/Mueseum/People.db";
+        String url = "jdbc:sqlite:/Users/yvonnezino/IdeaProjects/CP274Weekend1/People.db";
+        //String url = "jdbc:sqlite:/Users/parkerkerth/Documents/School/Software/Mueseum/People.db";
 
 
         Connection conn = null;
@@ -55,6 +56,7 @@ public class MuseumMain {
             System.out.println("Table created");
 
         } catch (SQLException e) {
+            System.out.println("HIT");
             e.printStackTrace();
         } finally {
             try {

@@ -3,17 +3,16 @@
 // (powered by Fernflower decompiler)
 //
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+
 
 public class MuseumInsert {
     public MuseumInsert() {
     }
 
     private Connection connect() {
-        String url = "jdbc:sqlite:/Users/parkerkerth/Documents/School/Software/Mueseum/People.db";
+        String url = "jdbc:sqlite:/Users/yvonnezino/IdeaProjects/CP274Weekend1/People.db";
+        //String url = "jdbc:sqlite:/Users/parkerkerth/Documents/School/Software/Mueseum/People.db";
         Connection conn = null;
 
         try {
@@ -135,6 +134,19 @@ public class MuseumInsert {
         }
 
     }
+    public void insert_Joins(){
+
+        String sql ="INSERT INTO Joins(ID,Age,Name) SELECT People.ID,People.Age,People.Name FROM People INNER JOIN Time ON People.ID=Time.ID " ;
+        try (Connection conn = this.connect()) {
+            Statement stmt = conn.createStatement();
+            String query =sql;
+            ResultSet rs = stmt.executeQuery(query);
+        }
+           catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+}
 
 
 
@@ -149,6 +161,7 @@ public class MuseumInsert {
         app.insert_time(2, "11am-2pm");
         app.insert_time(3, "2pm-6pm");
 
+        app.insert_Joins();
 
 
 
