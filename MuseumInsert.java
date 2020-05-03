@@ -80,8 +80,8 @@ public class MuseumInsert {
         }
 
     }
-    public void insert_time(int ID, String time) {
-        String sql_times = "INSERT INTO Time(ID,Time) VALUES(?,?)";
+    public void insert_time(int ID, int timeStart,int timeEnd) {
+        String sql_times = "INSERT INTO Time(ID,timeStart,timeEnd) VALUES(?,?,?)";
 
         try {
             Connection conn = this.connect();
@@ -93,7 +93,8 @@ public class MuseumInsert {
 
                 try {
                     pstmt_times.setInt(1, ID);
-                    pstmt_times.setString(2, time);
+                    pstmt_times.setInt(2, timeStart);
+                    pstmt_times.setInt(3, timeEnd);
                     pstmt_times.executeUpdate();
                 } catch (Throwable var33) {
                     var8 = var33;
@@ -157,10 +158,9 @@ public class MuseumInsert {
         app.insert_people(2, "Mary", 20);
         app.insert_people(3, "Adam", 33);
 
-        app.insert_time(1, "9am-11am");
-        app.insert_time(2, "11am-2pm");
-        app.insert_time(3, "2pm-6pm");
-
+        app.insert_time(1, 900,1100);
+        app.insert_time(2, 1100,1300);
+        app.insert_time(3, 1300,1500);
         app.insert_Joins();
 
 

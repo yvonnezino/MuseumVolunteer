@@ -17,7 +17,9 @@ public class MuseumMain {
 
     private static final String CREATE_TIME_TABLE_SQL = "CREATE TABLE Time ("
             + "ID INT NOT NULL,"
-            + "Time Slot STRING NOT NULL)";
+            + "Time Slot Start INT NOT NULL,"
+            +"Time Slot End INT NOT NULL)";
+
 
     private static final String CREATE_JOIN_TABLE_SQL ="CREATE TABLE Joins ("
             + "ID INT NOT NULL,"
