@@ -1,3 +1,5 @@
+package MuseumVolunteer;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
@@ -63,25 +65,7 @@ public class Graph extends Application {
                 lineChart.getData().addAll(series);
 
             }
-            /**
-            XYChart.Series series1 = new XYChart.Series();
-            series1.setName("Person 1");
 
-            series1.getData().add(new XYChart.Data(800, "Person 1"));
-            series1.getData().add(new XYChart.Data(1100, "Person 1"));
-
-
-            XYChart.Series series2 = new XYChart.Series();
-            series2.setName("Person 2");
-            series2.getData().add(new XYChart.Data(1100, "Person 2"));
-            series2.getData().add(new XYChart.Data(1400, "Person 2"));
-
-
-            XYChart.Series series3 = new XYChart.Series();
-            series3.setName("Person 3");
-            series3.getData().add(new XYChart.Data(1400, "Person 3"));
-            series3.getData().add(new XYChart.Data(1700, "Person 3"));
-            **/
 
             Scene scene  = new Scene(lineChart,800,600);
 
@@ -90,6 +74,18 @@ public class Graph extends Application {
             stage.show();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public static void closeStatement(Statement stmt) {
+        try {
+            if (null != stmt) {
+                stmt.close();
+                stmt = null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
         }
     }
 
