@@ -1,4 +1,4 @@
-package MuseumVolunteer;//
+//
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)
 //
@@ -10,7 +10,7 @@ public class MuseumInsert {
     public MuseumInsert() {
     }
 
-    private Connection connect() {
+    public Connection connect() {
         //String url = "jdbc:sqlite:/Users/yvonnezino/IdeaProjects/CP274Weekend1/People.db";
         String url = "jdbc:sqlite:People.db";
         //String url = "jdbc:sqlite:/Users/parkerkerth/Documents/School/Software/Mueseum/People.db";
@@ -155,6 +155,17 @@ public class MuseumInsert {
 
     //public static void main(String[] args) {
     public void runInsert(){
+        String sql ="SELECT * FROM People";
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+            if (rs.next()) {
+                return;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
         MuseumInsert app = new MuseumInsert();
         app.insert_people(1, "John", 50);
         app.insert_people(2, "Mary", 20);

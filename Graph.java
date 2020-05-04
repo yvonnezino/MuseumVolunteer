@@ -1,5 +1,3 @@
-package MuseumVolunteer;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
@@ -13,10 +11,10 @@ import java.util.ArrayList;
 
 
 public class Graph extends Application {
-    private MuseumMain newDatabase=new MuseumMain();
-    private MuseumInsert newInsertion=new MuseumInsert();
+    MuseumMain newDatabase=new MuseumMain();
+    MuseumInsert newInsertion=new MuseumInsert();
 
-    private Connection connect() {
+    public static Connection connect() {
         String url = "jdbc:sqlite:People.db";
         //String url = "jdbc:sqlite:/Users/parkerkerth/Documents/School/Software/Mueseum/People.db";
         Connection conn = null;

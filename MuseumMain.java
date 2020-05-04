@@ -1,9 +1,5 @@
-package MuseumVolunteer;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 
 /**
@@ -33,6 +29,17 @@ public class MuseumMain {
 
     //public static void main(String[] args) {
     public void createDatabases(){
+        String sql ="SELECT * FROM People";
+
+        try (Connection conn = Graph.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+            if (rs.next()) {
+                return;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
         String url = "jdbc:sqlite:People.db";
         //String url = "jdbc:sqlite:/Users/parkerkerth/Documents/School/Software/Mueseum/People.db";
 
