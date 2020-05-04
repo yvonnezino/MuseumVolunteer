@@ -1,4 +1,4 @@
-//
+package MuseumVolunteer;//
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)
 //
@@ -11,7 +11,8 @@ public class MuseumInsert {
     }
 
     private Connection connect() {
-        String url = "jdbc:sqlite:/Users/yvonnezino/IdeaProjects/CP274Weekend1/People.db";
+        //String url = "jdbc:sqlite:/Users/yvonnezino/IdeaProjects/CP274Weekend1/People.db";
+        String url = "jdbc:sqlite:People.db";
         //String url = "jdbc:sqlite:/Users/parkerkerth/Documents/School/Software/Mueseum/People.db";
         Connection conn = null;
 
@@ -81,7 +82,7 @@ public class MuseumInsert {
 
     }
     public void insert_time(int ID, int timeStart,int timeEnd) {
-        String sql_times = "INSERT INTO Time(ID,timeStart,timeEnd) VALUES(?,?,?)";
+        String sql_times = "INSERT INTO Time(ID,TimeStart,TimeEnd) VALUES(?,?,?)";
 
         try {
             Connection conn = this.connect();
@@ -137,7 +138,7 @@ public class MuseumInsert {
     }
     public void insert_Joins(){
 
-        String sql ="INSERT INTO Joins(ID,Age,Name) SELECT People.ID,People.Age,People.Name FROM People INNER JOIN Time ON People.ID=Time.ID " ;
+        String sql ="INSERT INTO Joins(ID,Age,Name,TimeStart,TimeEnd) SELECT People.ID,People.Age,People.Name,Time.TimeStart,Time.TimeEnd FROM People INNER JOIN Time ON People.ID=Time.ID " ;
         try (Connection conn = this.connect()) {
             Statement stmt = conn.createStatement();
             String query =sql;
@@ -152,7 +153,8 @@ public class MuseumInsert {
 
 
 
-    public static void main(String[] args) {
+    //public static void main(String[] args) {
+    public void runInsert(){
         MuseumInsert app = new MuseumInsert();
         app.insert_people(1, "John", 50);
         app.insert_people(2, "Mary", 20);

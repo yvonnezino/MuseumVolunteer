@@ -1,56 +1,108 @@
+package MuseumVolunteer;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
+import java.sql.*;
+import java.util.ArrayList;
+
 
 public class Graph extends Application {
+    private MuseumMain newDatabase=new MuseumMain();
+    private MuseumInsert newInsertion=new MuseumInsert();
+
+    private Connection connect() {
+        String url = "jdbc:sqlite:People.db";
+        //String url = "jdbc:sqlite:/Users/parkerkerth/Documents/School/Software/Mueseum/People.db";
+        Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(url);
+        } catch (SQLException var4) {
+            System.out.println(var4.getMessage());
+        }
+
+        return conn;
+    }
 
     @Override public void start(Stage stage) {
-        stage.setTitle("Line Chart Sample");
-        //defining the axes
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Hours");
-        yAxis.setLabel("Person");
-        //creating the chart
-        final LineChart<Number,Number> lineChart =
-                new LineChart<Number,Number>(xAxis,yAxis);
+        String sql ="SELECT * FROM Joins";
 
-        lineChart.setTitle("Time Chart");
-        //defining a series
-        XYChart.Series series = new XYChart.Series();
-        series.setName("My portfolio");
-        //populating the series with data
-        XYChart.Series person1 = new XYChart.Series();
-        person1.setName("Person1");
-        person1.getData().add(new XYChart.Data(1, 23));
-        person1.getData().add(new XYChart.Data(1, 23));
-        person1.getData().add(new XYChart.Data(1, 23));
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
 
-        XYChart.Series person2 = new XYChart.Series();
-        person2.setName("Person2");
-        person2.getData().add(new XYChart.Data(1, 23));
-        person2.getData().add(new XYChart.Data(1, 23));
-        person2.getData().add(new XYChart.Data(1, 23));
+            stage.setTitle("Volunteer Times");
+            final CategoryAxis yAxis = new CategoryAxis();
+            final NumberAxis xAxis = new NumberAxis();
+            xAxis.setLabel("Time");
 
-        XYChart.Series person3 = new XYChart.Series();
-        person3.setName("Person3");
-        person3.getData().add(new XYChart.Data(1, 23));
-        person3.getData().add(new XYChart.Data(1, 23));
-        person3.getData().add(new XYChart.Data(1, 23));
+            final LineChart<Number, String> lineChart =
+                    new LineChart<Number,String>(xAxis,yAxis);
+
+            lineChart.setTitle("Volunteer Times");
+            XYChart.Series series;
+
+            while(rs.next()) {
+                ArrayList<XYChart.Series> holdNames= new ArrayList<XYChart.Series>();
+                series=new XYChart.Series();
+                if(!holdNames.contains(rs.getString("Name"))){
+                    holdNames.add(series);
+                    series.setName(rs.getString("Name"));
+
+                    series.getData().add(new XYChart.Data(rs.getInt("TimeStart"), rs.getString("Name")));
+                    series.getData().add(new XYChart.Data(rs.getInt("TimeEnd"), rs.getString("Name")));
+                }
+                else{
+                    series.getData().add(new XYChart.Data(rs.getInt("TimeStart"), rs.getString("Name")));
+                    series.getData().add(new XYChart.Data(rs.getInt("TimeEnd"), rs.getString("Name")));
+                }
+                lineChart.getData().addAll(series);
+
+            }
+            /**
+            XYChart.Series series1 = new XYChart.Series();
+            series1.setName("Person 1");
+
+            series1.getData().add(new XYChart.Data(800, "Person 1"));
+            series1.getData().add(new XYChart.Data(1100, "Person 1"));
 
 
-        Scene scene  = new Scene(lineChart,800,600);
-        lineChart.getData().add(series);
+            XYChart.Series series2 = new XYChart.Series();
+            series2.setName("Person 2");
+            series2.getData().add(new XYChart.Data(1100, "Person 2"));
+            series2.getData().add(new XYChart.Data(1400, "Person 2"));
 
-        stage.setScene(scene);
-        stage.show();
+
+            XYChart.Series series3 = new XYChart.Series();
+            series3.setName("Person 3");
+            series3.getData().add(new XYChart.Data(1400, "Person 3"));
+            series3.getData().add(new XYChart.Data(1700, "Person 3"));
+            **/
+
+            Scene scene  = new Scene(lineChart,800,600);
+
+
+            stage.setScene(scene);
+            stage.show();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
+        Graph runGraph=new Graph();
+
+        MuseumMain newDatabase=new MuseumMain();
+        newDatabase.createDatabases();
+        MuseumInsert newInsertion=new MuseumInsert();
+        newInsertion.runInsert();
+
         launch(args);
     }
 }
